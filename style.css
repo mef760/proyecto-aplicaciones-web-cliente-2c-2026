@@ -1,4 +1,8 @@
 /* ===== Reset y base ===== */
+:root {
+    --header-h: 60px;
+}
+
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -48,11 +52,12 @@ header {
     grid-area: header;
     background-color: #1e3a5f;
     color: #ffffff;
-    padding: 1rem 2rem;
+    padding: 0 2rem;
+    min-height: var(--header-h);
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.75rem;
     position: sticky;
     top: 0;
@@ -81,6 +86,9 @@ nav[aria-label="Navegación principal"] {
 .navbar {
     background-color: #16294a;
     padding: 0.6rem 2rem;
+    ul {
+        justify-content: center;
+    }
 }
 
 nav[aria-label="Navegación principal"] ul {
@@ -102,12 +110,48 @@ nav[aria-label="Navegación principal"] a:hover {
     border-bottom-color: #93c5fd;
 }
 
+/* ===== Menú hamburguesa solo HTML + CSS (checkbox hack) ===== */
+/* El checkbox queda oculto pero funcional vía el <label> */
+.menu-toggle {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* En desktop el botón hamburguesa no se muestra */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: auto;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
 /* ===== Buscador de productos (solo HTML + CSS, sin JS) ===== */
 .search-bar {
     grid-area: searchbar;
     background-color: #ffffff;
     border-bottom: 1px solid #e5e7eb;
     padding: 0.9rem 2rem;
+    /* Fijo en la parte superior en mobile y desktop, debajo del header */
+    position: sticky;
+    top: var(--header-h);
+    z-index: 900;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .search-bar form[role="search"] {
@@ -323,6 +367,31 @@ aside nav a:hover {
 
 .sidebar .filtros button[type="submit"]:hover {
     background-color: #2563eb;
+}
+
+/* ===== Filtros colapsables solo HTML + CSS (checkbox hack) ===== */
+.filtros-toggle {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* En desktop el botón de filtros no se muestra y el contenido va abierto */
+.filtros-boton {
+    display: none;
+}
+
+.filtros-contenido {
+    display: block;
+}
+
+.filtros-boton .flecha::after {
+    content: "▾";
+    display: inline-block;
+    transition: transform 0.2s ease;
 }
 
 /* ===== Catálogo (contenedor Grid del layout, tarjetas en Flex) ===== */
@@ -635,13 +704,91 @@ h3 {
 @media (max-width: 768px) {
     .site-header,
     header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 1rem;
+        min-height: var(--header-h);
+    }
+
+    /* --- Menú hamburguesa: solo mobile --- */
+    .hamburger {
+        display: flex;
     }
 
     .navbar {
-        padding: 0.6rem 1rem;
+        padding: 0 1rem;
+    }
+
+    /* Nav colapsada por defecto, se abre con el checkbox */
+    nav[aria-label="Navegación principal"] ul {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        padding: 0.5rem 0;
+    }
+
+    nav[aria-label="Navegación principal"] li {
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    nav[aria-label="Navegación principal"] li:first-child {
+        border-top: none;
+    }
+
+    nav[aria-label="Navegación principal"] a {
+        display: block;
+        padding: 0.7rem 0.25rem;
+        border-bottom: none;
+    }
+
+    nav[aria-label="Navegación principal"] a:hover {
+        border-bottom-color: transparent;
+    }
+
+    /* Mostrar nav cuando el checkbox está marcado */
+    #menu-toggle:checked ~ .navbar ul {
+        display: flex;
+    }
+
+    /* Hamburguesa animada a "X" cuando el menú está abierto */
+    #menu-toggle:checked ~ .site-header .hamburger span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    #menu-toggle:checked ~ .site-header .hamburger span:nth-child(2) {
+        opacity: 0;
+    }
+
+    #menu-toggle:checked ~ .site-header .hamburger span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* --- Filtros colapsables: cerrados por defecto, solo mobile --- */
+    .filtros-boton {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        background-color: #1e3a5f;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 0.7rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .filtros-contenido {
+        display: none;
+        margin-top: 1rem;
+    }
+
+    #filtros-toggle:checked ~ .filtros-contenido {
+        display: block;
+    }
+
+    #filtros-toggle:checked ~ .filtros-boton .flecha::after {
+        transform: rotate(180deg);
     }
 
     .search-bar {
@@ -654,11 +801,6 @@ h3 {
 
     .search-bar label {
         flex: 1 1 100%;
-    }
-
-    nav[aria-label="Navegación principal"] ul {
-        gap: 1rem;
-        flex-wrap: wrap;
     }
 
     #inicio {

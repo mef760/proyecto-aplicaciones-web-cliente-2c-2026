@@ -9,16 +9,24 @@
 </head>
 <body>
 
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" tabindex="-1" aria-hidden="true">
+
     <header class="site-header">
-        <h1>Apple Store</h1>
+        <img src="./img/logo.png" alt="Apple Logo" width="40">
+        <h1><a href="index.html">Apple Store</a></h1>
+        <label for="menu-toggle" class="hamburger" aria-label="Abrir o cerrar menú de navegación">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
     </header>
 
     <nav class="navbar" aria-label="Navegación principal">
         <ul>
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#catalogo">Catálogo</a></li>
-            <li><a href="#ofertas">Ofertas</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="index.html#catalogo">Catálogo</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
         </ul>
     </nav>
 
@@ -33,6 +41,11 @@
     <main id="inicio">
 
         <aside class="sidebar" aria-label="Filtros de productos">
+            <input type="checkbox" id="filtros-toggle" class="filtros-toggle" tabindex="-1" aria-hidden="true">
+            <label for="filtros-toggle" class="filtros-boton" aria-label="Mostrar u ocultar filtros">
+                Filtros <span class="flecha" aria-hidden="true"></span>
+            </label>
+            <div class="filtros-contenido">
             <h2>Categorías</h2>
             <nav aria-label="Filtros de productos">
                 <ul>
@@ -63,6 +76,7 @@
                 </fieldset>
                 <button type="submit">Aplicar filtros</button>
             </form>
+            </div>
         </aside>
 
         <section id="catalogo" aria-label="Catálogo de productos">
