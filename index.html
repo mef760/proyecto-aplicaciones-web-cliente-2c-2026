@@ -22,9 +22,17 @@
         </ul>
     </nav>
 
+    <div class="search-bar">
+        <form role="search" method="get" action="#catalogo" aria-label="Buscador de productos">
+            <label for="buscar">Buscar productos</label>
+            <input type="search" id="buscar" name="buscar" placeholder="Buscar productos… Ej: iPhone, MacBook, iPad" autocomplete="off">
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
     <main id="inicio">
 
-        <aside class="sidebar" aria-label="Filtros de categorías">
+        <aside class="sidebar" aria-label="Filtros de productos">
             <h2>Categorías</h2>
             <nav aria-label="Filtros de productos">
                 <ul>
@@ -37,6 +45,24 @@
                     <li><a href="#accesorios">Accesorios</a></li>
                 </ul>
             </nav>
+
+            <form class="filtros" method="get" action="#catalogo" aria-label="Filtros de precio y envío">
+                <fieldset>
+                    <legend>Precio</legend>
+                    <label for="precio-min">Precio mínimo</label>
+                    <input type="number" id="precio-min" name="precio-min" min="0" step="1000" placeholder="Mín. Ej: 100000">
+                    <label for="precio-max">Precio máximo</label>
+                    <input type="number" id="precio-max" name="precio-max" min="0" step="1000" placeholder="Máx. Ej: 1500000">
+                </fieldset>
+                <fieldset>
+                    <legend>Envío</legend>
+                    <label class="check-envio" for="envio-gratis">
+                        <input type="checkbox" id="envio-gratis" name="envio" value="gratis">
+                        Envío gratuito
+                    </label>
+                </fieldset>
+                <button type="submit">Aplicar filtros</button>
+            </form>
         </aside>
 
         <section id="catalogo" aria-label="Catálogo de productos">
