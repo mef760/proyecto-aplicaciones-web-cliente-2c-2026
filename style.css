@@ -1,0 +1,476 @@
+/* ===== Reset y base ===== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #374151;
+    background-color: #f9fafb;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: #2563eb;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #1d4ed8;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ===== Header ===== */
+header {
+    background-color: #1e3a5f;
+    color: #ffffff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        a:hover {
+            color: #93c5fd;
+        }
+        a {
+            color: #ffffff;
+        }
+    }
+}
+
+/* ===== Navegación principal ===== */
+nav[aria-label="Navegación principal"] ul {
+    display: flex;
+    gap: 1.5rem;
+}
+
+nav[aria-label="Navegación principal"] a {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.35rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+nav[aria-label="Navegación principal"] a:hover {
+    color: #93c5fd;
+    border-bottom-color: #93c5fd;
+}
+
+/* ===== Navegación breadcrumb ===== */
+nav[aria-label="Ruta de navegación"] ol {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+nav[aria-label="Ruta de navegación"] a {
+    color: #6b7280;
+}
+
+nav[aria-label="Ruta de navegación"] a:hover {
+    color: #2563eb;
+}
+
+nav[aria-label="Ruta de navegación"] [aria-current="page"] {
+    color: #374151;
+    font-weight: 600;
+}
+
+/* ===== Layout principal (index) ===== */
+main {
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+#inicio {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* ===== Aside / Filtros ===== */
+aside {
+    flex: 0 0 220px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+aside h2 {
+    font-size: 1.1rem;
+    color: #1e3a5f;
+    margin-bottom: 1rem;
+}
+
+aside nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+aside nav a {
+    color: #374151;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 4px;
+    display: block;
+}
+
+aside nav a:hover {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+/* ===== Catálogo ===== */
+#catalogo h2 {
+    font-size: 1.3rem;
+    color: #1e3a5f;
+    margin-bottom: 1.5rem;
+}
+
+#catalogo {
+    flex: 1;
+}
+
+#catalogo > h2 {
+    margin-bottom: 1.5rem;
+}
+
+/* ===== Tarjetas de productos ===== */
+#catalogo article {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#catalogo article:hover {
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    border-color: #bfdbfe;
+}
+
+#catalogo article h3 a {
+    color: #1e3a5f;
+    font-size: 1.15rem;
+}
+
+#catalogo article h3 a:hover {
+    color: #2563eb;
+}
+
+#catalogo article p {
+    margin-bottom: 0.35rem;
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+#catalogo article p:last-child {
+    margin-top: 0.75rem;
+}
+
+/* ===== Footer ===== */
+footer {
+    background-color: #1e3a5f;
+    color: #ffffff;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+footer p {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    color: #d1d5db;
+}
+
+footer nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+footer nav a {
+    color: #93c5fd;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+footer nav a:hover {
+    color: #ffffff;
+}
+
+/* ===== Tablas ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+caption {
+    text-align: left;
+    font-weight: 600;
+    color: #1e3a5f;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+}
+
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.9rem;
+}
+
+thead th {
+    background-color: #f0f4ff;
+    color: #1e3a5f;
+    font-weight: 600;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tfoot td {
+    font-weight: 700;
+    background-color: #f9fafb;
+    color: #1e3a5f;
+}
+
+/* ===== Formularios ===== */
+form {
+    max-width: 600px;
+}
+
+fieldset {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    background-color: #ffffff;
+}
+
+legend {
+    font-weight: 600;
+    color: #1e3a5f;
+    padding: 0 0.5rem;
+}
+
+label {
+    display: block;
+    margin-top: 0.75rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #ffffff;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+input[type="radio"] {
+    margin-right: 0.4rem;
+}
+
+
+
+input[type="submit"] {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 0.5rem;
+}
+
+input[type="submit"]:hover {
+    background-color: #1d4ed8;
+}
+
+[role="button"] {
+    display: inline-block;
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+[role="button"]:hover {
+    background-color: #1d4ed8;
+    color: #ffffff;
+}
+
+/* ===== Artículo producto ===== */
+article[aria-label="Ficha del producto"] {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+article[aria-label="Ficha del producto"] h2 {
+    color: #1e3a5f;
+    margin-bottom: 0.75rem;
+}
+
+article[aria-label="Ficha del producto"] section {
+    margin-top: 1.5rem;
+}
+
+article[aria-label="Ficha del producto"] h3 {
+    color: #1e3a5f;
+    margin-bottom: 0.5rem;
+}
+
+/* ===== Secciones generales ===== */
+section[aria-label] {
+    margin-bottom: 2rem;
+}
+
+h2 {
+    font-size: 1.3rem;
+    color: #1e3a5f;
+}
+
+h3 {
+    font-size: 1.1rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    nav[aria-label="Navegación principal"] ul {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    #inicio {
+        flex-direction: column;
+    }
+
+    aside {
+        flex: 1 1 auto;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    nav[aria-label="Ruta de navegación"] ol {
+        font-size: 0.8rem;
+    }
+
+    footer nav ul {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 0.5rem 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+
+    header h1 {
+        font-size: 1.25rem;
+    }
+
+    nav[aria-label="Navegación principal"] ul {
+        gap: 0.75rem;
+    }
+
+    nav[aria-label="Navegación principal"] a {
+        font-size: 0.85rem;
+    }
+
+    aside nav ul {
+        gap: 0.25rem;
+    }
+
+    footer {
+        padding: 1rem;
+    }
+
+    footer p {
+        font-size: 0.8rem;
+    }
+
+    footer nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
