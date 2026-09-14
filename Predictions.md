@@ -5,3 +5,9 @@
 3. Quiero crear pantalla de carrito y contacto del ecommerce
 
 4. Maquetar con los estilos principales header, catalogo, nav y footer
+
+5. Mejorar interfaz y maquetado del catalogo
+
+6. Agrego buscador de productos y filtro de precios
+
+7. Agrego menu hamburguesa para vista mobile
