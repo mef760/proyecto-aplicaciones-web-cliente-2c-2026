@@ -16,8 +16,15 @@ body {
     background-color: #f9fafb;
     line-height: 1.6;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    /* ===== Template general con Grid: header / navbar / main / footer ===== */
+    display: grid;
+    grid-template-areas:
+        "header"
+        "navbar"
+        "main"
+        "footer";
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 1fr;
 }
 
 a {
@@ -35,7 +42,9 @@ ul {
 }
 
 /* ===== Header ===== */
+.site-header,
 header {
+    grid-area: header;
     background-color: #1e3a5f;
     color: #ffffff;
     padding: 1rem 2rem;
@@ -62,7 +71,17 @@ header {
     }
 }
 
-/* ===== Navegación principal ===== */
+/* ===== Navegación principal (navbar del layout Grid) ===== */
+.navbar,
+nav[aria-label="Navegación principal"] {
+    grid-area: navbar;
+}
+
+.navbar {
+    background-color: #16294a;
+    padding: 0.6rem 2rem;
+}
+
 nav[aria-label="Navegación principal"] ul {
     display: flex;
     gap: 1.5rem;
@@ -107,22 +126,35 @@ nav[aria-label="Ruta de navegación"] [aria-current="page"] {
 
 /* ===== Layout principal (index) ===== */
 main {
-    flex: 1;
+    grid-area: main;
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
     padding: 2rem;
 }
 
-#inicio {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
+footer {
+    grid-area: footer;
 }
 
-/* ===== Aside / Filtros ===== */
+#inicio {
+    /* Sub-grid del contenido: sidebar + catálogo */
+    display: grid;
+    grid-template-areas:
+        "sidebar"
+        "catalogo";
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* ===== Aside / Filtros (sidebar del layout Grid) ===== */
+aside,
+.sidebar {
+    grid-area: sidebar;
+}
+
 aside {
-    flex: 0 0 220px;
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -154,32 +186,45 @@ aside nav a:hover {
     color: #2563eb;
 }
 
-/* ===== Catálogo ===== */
+/* ===== Catálogo (contenedor Grid del layout, tarjetas en Flex) ===== */
+#catalogo {
+    grid-area: catalogo;
+    min-width: 0;
+}
+
 #catalogo h2 {
     font-size: 1.3rem;
     color: #1e3a5f;
     margin-bottom: 1.5rem;
 }
 
-#catalogo {
-    flex: 1;
-}
-
 #catalogo > h2 {
     margin-bottom: 1.5rem;
 }
 
-/* ===== Tarjetas de productos ===== */
-#catalogo article {
+/* Contenedor flex de las tarjetas */
+#catalogo .productos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: stretch;
+}
+
+/* ===== Tarjetas de productos (Flex items) ===== */
+/* Mobile primero: 1 columna */
+#catalogo article,
+#catalogo .card {
+    flex: 1 1 100%;
+    max-width: 100%;
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     padding: 1.5rem;
-    margin-bottom: 1.25rem;
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-#catalogo article:hover {
+#catalogo article:hover,
+#catalogo .card:hover {
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
     border-color: #bfdbfe;
 }
@@ -201,6 +246,56 @@ aside nav a:hover {
 
 #catalogo article p:last-child {
     margin-top: 0.75rem;
+}
+
+/* Imagen de producto (misma para todos) */
+#catalogo .card img,
+article[aria-label="Ficha del producto"] img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    background-color: #f3f4f6;
+    display: block;
+}
+
+article[aria-label="Ficha del producto"] img {
+    max-width: 480px;
+}
+
+/* Tablet: 3 columnas */
+@media (min-width: 600px) and (max-width: 1023px) {
+    #catalogo article,
+    #catalogo .card {
+        flex: 1 1 calc(33.333% - 1.25rem);
+        max-width: calc(33.333% - 0.85rem);
+    }
+}
+
+/* Desktop: 4 columnas + sidebar lateral vía Grid */
+@media (min-width: 1024px) {
+    #inicio {
+        grid-template-areas: "sidebar catalogo";
+        grid-template-columns: 220px 1fr;
+    }
+
+    #catalogo article,
+    #catalogo .card {
+        flex: 1 1 calc(25% - 1.25rem);
+        max-width: calc(25% - 0.95rem);
+    }
+}
+
+/* Tablet: sidebar arriba, catálogo debajo (Grid de 1 columna) */
+@media (min-width: 600px) and (max-width: 1023px) {
+    #inicio {
+        grid-template-areas:
+            "sidebar"
+            "catalogo";
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ===== Footer ===== */
@@ -399,10 +494,15 @@ h3 {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
+    .site-header,
     header {
         flex-direction: column;
         align-items: flex-start;
         padding: 1rem;
+    }
+
+    .navbar {
+        padding: 0.6rem 1rem;
     }
 
     nav[aria-label="Navegación principal"] ul {
@@ -411,11 +511,10 @@ h3 {
     }
 
     #inicio {
-        flex-direction: column;
-    }
-
-    aside {
-        flex: 1 1 auto;
+        grid-template-areas:
+            "sidebar"
+            "catalogo";
+        grid-template-columns: 1fr;
     }
 
     main {
