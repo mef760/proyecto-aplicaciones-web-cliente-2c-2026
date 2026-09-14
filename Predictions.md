@@ -9,3 +9,5 @@
 5. Mejorar interfaz y maquetado del catalogo
 
 6. Agrego buscador de productos y filtro de precios
+
+7. Agrego menu hamburguesa para vista mobile
