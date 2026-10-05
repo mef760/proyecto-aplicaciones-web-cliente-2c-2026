@@ -49,7 +49,7 @@ const productos = [
     }
 ];
 
-function crearTarjeta(producto) {
+const crearTarjeta = (producto) => {
     const articulo = document.createElement("article");
     articulo.className = "card";
     articulo.id = producto.id;
@@ -87,11 +87,14 @@ function crearTarjeta(producto) {
     return articulo;
 }
 
-function renderizarProductos() {
+const renderizarProductos = () => {
     const contenedor = document.getElementById("productos");
-    productos.forEach(function (producto) {
-        contenedor.appendChild(crearTarjeta(producto));
+    const tarjetas = productos.map(function (producto) {
+        return crearTarjeta(producto);
     });
+    for (const tarjeta of tarjetas) {
+        contenedor.appendChild(tarjeta);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", renderizarProductos);
