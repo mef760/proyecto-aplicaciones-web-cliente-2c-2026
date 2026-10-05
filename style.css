@@ -190,7 +190,7 @@ nav[aria-label="Navegación principal"] a:hover {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-.search-bar button[type="submit"] {
+.search-bar button {
     background-color: #2563eb;
     color: #ffffff;
     border: none;
@@ -203,7 +203,7 @@ nav[aria-label="Navegación principal"] a:hover {
     white-space: nowrap;
 }
 
-.search-bar button[type="submit"]:hover {
+.search-bar button:hover {
     background-color: #1d4ed8;
 }
 
@@ -454,6 +454,36 @@ aside nav a:hover {
 
 #catalogo article p:last-child {
     margin-top: 0.75rem;
+}
+
+/* ===== Aviso de búsqueda sin resultados ===== */
+#catalogo .sin-resultados {
+    flex: 1 1 100%;
+    background-color: #ffffff;
+    border: 1px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+}
+
+#catalogo .sin-resultados[hidden] {
+    display: none;
+}
+
+#catalogo .sin-resultados h3 {
+    color: #1e3a5f;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+#catalogo .sin-resultados p {
+    color: #4b5563;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+#catalogo .sin-resultados p:last-child {
+    margin-top: 1.25rem;
 }
 
 /* Imagen de producto (misma para todos) */

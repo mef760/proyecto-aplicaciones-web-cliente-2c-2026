@@ -33,8 +33,8 @@
     <div class="search-bar">
         <form role="search" method="get" action="#catalogo" aria-label="Buscador de productos">
             <label for="buscar">Buscar productos</label>
-            <input type="search" id="buscar" name="buscar" placeholder="Buscar productos… Ej: iPhone, MacBook, iPad" autocomplete="off">
-            <button type="submit">Buscar</button>
+            <input type="search" id="search-input" name="buscar" placeholder="Buscar productos… Ej: iPhone, MacBook, iPad" autocomplete="off">
+            <button id="search-button">Buscar</button>
         </form>
     </div>
 
@@ -83,6 +83,12 @@
             <h2>Catálogo de productos</h2>
 
             <div class="productos" id="productos">
+            </div>
+
+            <div class="sin-resultados" id="sin-resultados" hidden>
+                <h3>No encontramos productos</h3>
+                <p>No hay resultados para tu búsqueda. Probá con otro término o mirá todo el catálogo.</p>
+                <p><a href="#catalogo" role="button" id="volver-todos">Volver a ver todos los productos</a></p>
             </div>
 
         </section>
