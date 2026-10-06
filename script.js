@@ -1,54 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const productos = [
-        {
-            id: "macbook",
-            nombre: "MacBook Pro M5",
-            descripcion: "Notebook ultradelgado con chip M4, 13 pulgadas.",
-            precio: "1.199.000",
-            imagen: "https://tse1.mm.bing.net/th/id/OIP.ccdzvcFZfXSDIcyYsRmzBAHaGY?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-            alt: "MacBook Air M3"
-        },
-        {
-            id: "iphone",
-            nombre: "iPhone 15 Pro",
-            descripcion: "Smartphone con chip A17 Pro, cámara de 48MP y titanio.",
-            precio: "1.599.000",
-            imagen: "https://tse1.mm.bing.net/th/id/OIP.ccdzvcFZfXSDIcyYsRmzBAHaGY?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-            alt: "iPhone 15 Pro"
-        },
-        {
-            id: "ipad",
-            nombre: "iPad Air",
-            descripcion: "Tablet con chip M2, pantalla Liquid Retina de 11 pulgadas.",
-            precio: "999.000",
-            imagen: "https://tse1.mm.bing.net/th/id/OIP.ccdzvcFZfXSDIcyYsRmzBAHaGY?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-            alt: "iPad Air"
-        },
-        {
-            id: "watch",
-            nombre: "Apple Watch Series 9",
-            descripcion: "Reloj inteligente con GPS y detección de accidentes.",
-            precio: "549.000",
-            imagen: "https://tse1.mm.bing.net/th/id/OIP.ccdzvcFZfXSDIcyYsRmzBAHaGY?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-            alt: "Apple Watch Series 9"
-        },
-        {
-            id: "airpods",
-            nombre: "AirPods Pro 2",
-            descripcion: "Auriculares inalámbricos con cancelación activa de ruido.",
-            precio: "349.000",
-            imagen: "https://tse1.mm.bing.net/th/id/OIP.ccdzvcFZfXSDIcyYsRmzBAHaGY?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-            alt: "AirPods Pro 2"
-        },
-        {
-            id: "accesorios",
-            nombre: "Magic Mouse",
-            descripcion: "Mouse inalámbrico recargable con Multi-Touch.",
-            precio: "129.000",
-            imagen: "https://tse1.mm.bing.net/th/id/OIP.ccdzvcFZfXSDIcyYsRmzBAHaGY?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-            alt: "Magic Mouse"
-        }
-    ];
 
     const crearTarjeta = (producto) => {
         const articulo = document.createElement("article");
@@ -62,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const titulo = document.createElement("h3");
         const enlaceTitulo = document.createElement("a");
-        enlaceTitulo.href = "producto.html";
+        enlaceTitulo.href = `producto.html?id=${producto.id}`;
         enlaceTitulo.textContent = producto.nombre;
         titulo.appendChild(enlaceTitulo);
 
@@ -74,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const detalle = document.createElement("p");
         const enlaceDetalle = document.createElement("a");
-        enlaceDetalle.href = "producto.html";
+        enlaceDetalle.href = `producto.html?id=${producto.id}`;
         enlaceDetalle.setAttribute("aria-label", `Ver detalle de ${producto.nombre}`);
         enlaceDetalle.innerHTML = "Ver detalle &rarr;";
         detalle.appendChild(enlaceDetalle);
@@ -108,10 +58,135 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderizarProductos();
 
-    const searchButton = document.getElementById("search-button");
-    searchButton.addEventListener("click", (e) => {
+    /* ===== Buscador con desplegable de sugerencias ===== */
+
+    const searchInput = document.getElementById("search-input");
+    const suggestionsList = document.getElementById("search-suggestions");
+    const searchForm = searchInput.closest("form");
+
+    let debounceTimer = null;
+    let indiceActivo = -1;
+
+    const cerrarSugerencias = () => {
+        suggestionsList.hidden = true;
+        suggestionsList.innerHTML = "";
+        searchInput.setAttribute("aria-expanded", "false");
+        searchInput.removeAttribute("aria-activedescendant");
+        indiceActivo = -1;
+    }
+
+    const crearSugerencia = (producto) => {
+        const item = document.createElement("li");
+        item.className = "suggestion";
+        item.id = `suggestion-${producto.id}`;
+        item.setAttribute("role", "option");
+        item.setAttribute("aria-selected", "false");
+
+        const enlace = document.createElement("a");
+        enlace.href = `producto.html?id=${producto.id}`;
+        enlace.tabIndex = -1;
+        enlace.textContent = producto.nombre;
+
+        const descripcion = document.createElement("span");
+        descripcion.className = "suggestion-descripcion";
+        descripcion.textContent = producto.descripcion;
+
+        item.appendChild(enlace);
+        item.appendChild(descripcion);
+
+        return item;
+    }
+
+    const mostrarSugerencias = (termino) => {
+        suggestionsList.innerHTML = "";
+        indiceActivo = -1;
+        searchInput.removeAttribute("aria-activedescendant");
+
+        /* Solo busca con 3 caracteres o más */
+        if (termino.trim().length < MIN_CARACTERES_BUSQUEDA) {
+            cerrarSugerencias();
+            return;
+        }
+
+        const resultados = buscarProductos(termino);
+
+        if (resultados.length === 0) {
+            const vacio = document.createElement("li");
+            vacio.className = "suggestion-vacio";
+            vacio.setAttribute("role", "presentation");
+            vacio.textContent = "Sin resultados. Probá con otro término.";
+            suggestionsList.appendChild(vacio);
+        }
+
+        for (const producto of resultados) {
+            suggestionsList.appendChild(crearSugerencia(producto));
+        }
+
+        suggestionsList.hidden = false;
+        searchInput.setAttribute("aria-expanded", "true");
+    }
+
+    const opciones = () => {
+        return Array.from(suggestionsList.querySelectorAll(".suggestion"));
+    }
+
+    const resaltarSugerencia = (indice) => {
+        const items = opciones();
+
+        if (items.length === 0) {
+            return;
+        }
+
+        indice = (indice + items.length) % items.length;
+        items.forEach((item, i) => item.setAttribute("aria-selected", String(i === indice)));
+
+        indiceActivo = indice;
+        const activo = items[indice];
+        searchInput.setAttribute("aria-activedescendant", activo.id);
+        activo.scrollIntoView({ block: "nearest" });
+    }
+
+    /* Evento input: dispara la búsqueda al escribir más de 2 caracteres */
+    searchInput.addEventListener("input", () => {
+        clearTimeout(debounceTimer);
+        const termino = searchInput.value;
+
+        debounceTimer = setTimeout(() => {
+            mostrarSugerencias(termino);
+        }, 150);
+    });
+
+    /* Navegación con teclado dentro del desplegable */
+    searchInput.addEventListener("keydown", (e) => {
+        if (suggestionsList.hidden) {
+            return;
+        }
+
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            resaltarSugerencia(indiceActivo + 1);
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            resaltarSugerencia(indiceActivo - 1);
+        } else if (e.key === "Escape") {
+            cerrarSugerencias();
+        } else if (e.key === "Enter" && indiceActivo >= 0) {
+            e.preventDefault();
+            opciones()[indiceActivo].querySelector("a").click();
+        }
+    });
+
+    /* Cierra el desplegable al hacer click fuera */
+    document.addEventListener("click", (e) => {
+        if (!searchForm.contains(e.target)) {
+            cerrarSugerencias();
+        }
+    });
+
+    searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const searchInput = document.getElementById("search-input");
+        cerrarSugerencias();
+
         const queryValue = searchInput.value.toLowerCase().trim();
 
         const filteredProducts = productos.filter(producto => {
@@ -134,10 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const volverTodos = document.getElementById("volver-todos");
     volverTodos.addEventListener("click", (e) => {
         e.preventDefault();
-        document.getElementById("search-input").value = "";
+        searchInput.value = "";
+        cerrarSugerencias();
         renderizarProductos();
     })
 });
-
-
-

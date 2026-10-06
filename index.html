@@ -32,9 +32,15 @@
 
     <div class="search-bar">
         <form role="search" method="get" action="#catalogo" aria-label="Buscador de productos">
-            <label for="buscar">Buscar productos</label>
-            <input type="search" id="search-input" name="buscar" placeholder="Buscar productos… Ej: iPhone, MacBook, iPad" autocomplete="off">
-            <button id="search-button">Buscar</button>
+            <label for="search-input">Buscar productos</label>
+            <div class="search-campo">
+                <input type="search" id="search-input" name="buscar" placeholder="Buscar productos… Ej: iPhone, MacBook, iPad" autocomplete="off"
+                    role="combobox" aria-expanded="false" aria-controls="search-suggestions" aria-autocomplete="list"
+                    aria-haspopup="listbox" aria-describedby="search-ayuda">
+                <p class="search-ayuda" id="search-ayuda">Escribí 3 caracteres o más para ver sugerencias.</p>
+                <ul class="search-suggestions" id="search-suggestions" role="listbox" aria-label="Sugerencias de productos" hidden></ul>
+            </div>
+            <button id="search-button" type="submit">Buscar</button>
         </form>
     </div>
 
@@ -106,6 +112,7 @@
         </nav>
     </footer>
 
+<script src="productos.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
