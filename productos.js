@@ -76,3 +76,4 @@ const buscarProductos = (termino) => {
 const buscarProductoPorId = (id) => {
     return productos.find((producto) => producto.id === id);
 };
+

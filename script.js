@@ -1,5 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const traerProductosSupabase = () => {
+    const url = "https://ofjugmqikwqnllfbzoxi.supabase.co/rest/v1/Products";
+    const options = {
+        method: "GET",
+        headers: {
+            "apikey": "sb_publishable_qq9huIOf4hhhR0RmcnurKQ_ow3wCHBH",
+            "Authorization": "Bearer sb_publishable_qq9huIOf4hhhR0RmcnurKQ_ow3wCHBH",
+            "Content-Type": "application/json"
+        }
+    };
 
+    return fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al obtener los productos de Supabase");
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Aquí puedes procesar los datos obtenidos de Supabase si es necesario
+            return data;
+        })
+        .catch(error => {
+            console.error("Error en la solicitud a Supabase:", error);
+            return [];
+        });
+};
+    traerProductosSupabase().then(productosSupabase => {
+        console.log("Productos obtenidos de Supabase:", productosSupabase);
+        // Aquí puedes hacer algo con los productos obtenidos, como renderizarlos en la página
+    });
+    
     const crearTarjeta = (producto) => {
         const articulo = document.createElement("article");
         articulo.className = "card";
