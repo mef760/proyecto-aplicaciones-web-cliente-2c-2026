@@ -39,4 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById("detalle-volver").href = `index.html#${producto.id}`;
+
+    const addCartButton = document.getElementById("add-cart");
+    addCartButton.addEventListener("click", () => {
+        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        carrito.push(producto);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+    });
 });
