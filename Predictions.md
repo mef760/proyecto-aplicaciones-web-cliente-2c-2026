@@ -13,3 +13,8 @@
 7. Agrego menu hamburguesa para vista mobile
 
 8. Agregar productos dinamicamente desde javascript
+
+9. Agregar buscador de productos y arrow functions
+
+10. Crear filtros de productos 
+
